@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#FFF7EC">
+<meta name="color-scheme" content="light">
 <title>Happy Diwali</title>
 <style>
   :root{
@@ -10,14 +12,19 @@
     --plum:#6B2D5C; --deep:#8C2F1F; --cream:#FFF7EC; --ink:#2B1B14;
   }
   *{box-sizing:border-box}
-  html,body{height:100%}
+  html{-webkit-text-size-adjust:100%}
+  html,body{margin:0; min-height:100%}
   body{
-    margin:0; font-family:"Segoe UI",system-ui,-apple-system,sans-serif;
+    font-family:"Segoe UI",system-ui,-apple-system,sans-serif;
     color:var(--ink); background:var(--cream);
-    display:grid; place-items:center; overflow-x:hidden; position:relative;
+    min-height:100vh; min-height:100dvh;
+    display:flex; align-items:center; justify-content:center;
+    padding:calc(12px + env(safe-area-inset-top)) 0 calc(12px + env(safe-area-inset-bottom));
+    overflow-x:hidden; position:relative;
+    -webkit-tap-highlight-color:transparent;
+    overscroll-behavior-y:contain;
   }
-  /* drifting colour fields, no neon */
-  .bg{position:fixed; inset:-20%; z-index:0; filter:blur(60px); opacity:.55}
+  .bg{position:fixed; inset:-20%; z-index:0; filter:blur(56px); opacity:.5}
   .bg span{position:absolute; border-radius:50%; animation:drift 26s ease-in-out infinite}
   .bg span:nth-child(1){width:46vmax;height:46vmax;left:-8%;top:-10%;background:var(--marigold)}
   .bg span:nth-child(2){width:38vmax;height:38vmax;right:-6%;top:6%;background:var(--rose);animation-delay:-6s}
@@ -30,29 +37,33 @@
   }
   #fw{position:fixed; inset:0; z-index:1; pointer-events:none}
 
-  /* floating diyas */
   .lamps{position:fixed; inset:0; z-index:1; pointer-events:none; overflow:hidden}
   .lamp{position:absolute; bottom:-40px; width:12px; height:12px; border-radius:50% 50% 50% 50%/60% 60% 40% 40%;
     background:radial-gradient(circle at 50% 30%,#FFD37A,var(--saffron) 60%,var(--deep));
-    box-shadow:0 0 10px 4px rgba(232,135,30,.35); animation:rise linear infinite}
+    box-shadow:0 0 10px 4px rgba(232,135,30,.32); animation:rise linear infinite; will-change:transform}
   @keyframes rise{
     0%{transform:translateY(0) scale(.7); opacity:0}
     12%{opacity:.9}
     100%{transform:translateY(-105vh) scale(1.15); opacity:0}
   }
 
-  main{position:relative; z-index:2; width:min(560px,92vw); margin:6vh 0}
+  main{
+    position:relative; z-index:2;
+    width:min(560px, calc(100% - 24px));
+    margin:0 auto;
+  }
   .card{
     background:linear-gradient(160deg,#FFFDF8,#FFF3E0);
     border:1px solid rgba(232,135,30,.28);
-    border-radius:26px; padding:34px 26px 30px;
-    box-shadow:0 26px 60px -28px rgba(107,45,92,.45), 0 2px 0 #fff inset;
+    border-radius:22px;
+    padding:clamp(20px, 6vw, 34px) clamp(16px, 5vw, 26px);
+    box-shadow:0 20px 48px -26px rgba(107,45,92,.45), 0 2px 0 #fff inset;
     text-align:center; animation:pop .7s cubic-bezier(.2,.9,.3,1.2) both;
   }
-  @keyframes pop{from{opacity:0; transform:translateY(22px) scale(.97)}to{opacity:1;transform:none}}
+  @keyframes pop{from{opacity:0; transform:translateY(18px) scale(.98)}to{opacity:1;transform:none}}
 
-  .rowlamps{display:flex; justify-content:center; gap:10px; margin-bottom:16px}
-  .diya{width:26px;height:18px;position:relative}
+  .rowlamps{display:flex; justify-content:center; gap:clamp(6px,2.4vw,10px); margin-bottom:clamp(10px,3vw,16px)}
+  .diya{width:clamp(20px,6vw,26px);height:18px;position:relative}
   .diya i{position:absolute;left:50%;bottom:6px;width:9px;height:13px;transform:translateX(-50%);
     background:radial-gradient(circle at 50% 75%,#FFE7A8,#F2A33C 55%,#C2185B);
     border-radius:50% 50% 50% 50%/70% 70% 30% 30%; animation:flick 1.6s ease-in-out infinite}
@@ -62,39 +73,66 @@
   .diya:nth-child(4) i{animation-delay:.75s}.diya:nth-child(5) i{animation-delay:1s}
   @keyframes flick{0%,100%{transform:translateX(-50%) scaleY(1);opacity:1}50%{transform:translateX(-50%) scaleY(1.18) scaleX(.92);opacity:.85}}
 
-  h1{font-family:Georgia,"Times New Roman",serif; font-size:clamp(30px,7vw,44px); margin:0 0 6px; letter-spacing:-.5px}
+  h1{font-family:Georgia,"Times New Roman",serif; font-size:clamp(27px,8.5vw,44px); margin:0 0 6px;
+     letter-spacing:-.5px; line-height:1.1}
   h1 .accent{background:linear-gradient(92deg,var(--rose),var(--deep) 45%,var(--saffron));
     -webkit-background-clip:text; background-clip:text; color:transparent}
-  .sub{margin:0 0 22px; color:#6B5546; font-size:15px; line-height:1.55}
+  .sub{margin:0 auto clamp(14px,4vw,22px); color:#6B5546; font-size:clamp(13.5px,3.8vw,15px); line-height:1.5; max-width:32ch}
 
-  form{display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-bottom:6px}
+  form{display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-bottom:4px}
   input{
-    flex:1 1 220px; min-width:0; padding:14px 16px; font-size:16px; color:var(--ink);
+    flex:1 1 200px; min-width:0; padding:15px 16px; font-size:16px; font-family:inherit; color:var(--ink);
     background:#fff; border:1.5px solid rgba(232,135,30,.45); border-radius:14px; outline:none;
-    transition:border-color .25s, box-shadow .25s, transform .25s;
+    transition:border-color .25s, box-shadow .25s; touch-action:manipulation;
+    appearance:none; -webkit-appearance:none;
   }
   input::placeholder{color:#B09A87}
   input:focus{border-color:var(--rose); box-shadow:0 0 0 4px rgba(194,24,91,.12)}
   button{
-    padding:14px 22px; font-size:16px; font-weight:600; color:#fff; cursor:pointer;
+    padding:15px 22px; min-height:52px; font-size:16px; font-family:inherit; font-weight:600; color:#fff;
+    cursor:pointer; touch-action:manipulation; -webkit-appearance:none;
     background:linear-gradient(135deg,var(--deep),var(--rose));
     border:none; border-radius:14px; transition:transform .18s, box-shadow .25s, filter .25s;
     box-shadow:0 12px 24px -12px rgba(140,47,31,.85);
   }
   button:hover{transform:translateY(-2px); filter:brightness(1.06)}
   button:active{transform:translateY(1px) scale(.99)}
-  .hint{font-size:12.5px; color:#8B7361; margin:8px 0 0}
+  button:focus-visible{outline:3px solid rgba(15,118,110,.5); outline-offset:2px}
+  .hint{font-size:12.5px; color:#8B7361; margin:10px 0 0}
 
-  .greet{margin-top:22px; min-height:2px}
+  .greet{margin-top:clamp(14px,4vw,22px)}
   .greet.show{animation:pop .6s cubic-bezier(.2,.9,.3,1.2) both}
-  .name{font-family:Georgia,serif; font-size:clamp(22px,5.5vw,30px); margin:14px 0 4px;
+  .name{font-family:Georgia,serif; font-size:clamp(21px,6.5vw,30px); margin:12px 0 4px; line-height:1.2;
     background:linear-gradient(92deg,var(--teal),var(--rose)); -webkit-background-clip:text;
     background-clip:text; color:transparent}
-  .phrase{font-style:italic; font-size:16px; line-height:1.6; color:#4A3428; max-width:44ch; margin:10px auto 0}
-  .rule{width:64px; height:3px; border-radius:3px; margin:16px auto;
+  .phrase{font-style:italic; font-size:clamp(14.5px,4.1vw,16px); line-height:1.6; color:#4A3428;
+    max-width:42ch; margin:10px auto 0}
+  .rule{width:56px; height:3px; border-radius:3px; margin:14px auto;
     background:linear-gradient(90deg,var(--saffron),var(--rose),var(--teal))}
-  .foot{margin-top:26px; font-size:12.5px; color:#8B7361; letter-spacing:.04em}
-  .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  .foot{margin-top:clamp(16px,5vw,26px); font-size:12.5px; color:#8B7361; letter-spacing:.03em; line-height:1.5}
+
+  /* phones: stack the button, trim the heavy effects so it stays smooth */
+  @media (max-width:480px){
+    form{flex-direction:column; align-items:stretch}
+    input{width:100%; text-align:center}
+    button{width:100%}
+    .bg{filter:blur(40px); opacity:.45}
+    .bg span:nth-child(4){display:none}
+    .card{border-radius:20px}
+    .hint{margin-top:8px}
+  }
+  @media (max-width:340px){
+    h1{font-size:26px}
+    .diya{width:19px}
+    .foot{font-size:11.5px}
+  }
+  /* short screens and landscape phones: let it scroll instead of clipping */
+  @media (max-height:620px){
+    body{align-items:flex-start}
+    .rowlamps{margin-bottom:8px}
+    .sub{margin-bottom:12px}
+    .hint{display:none}
+  }
   @media (prefers-reduced-motion: reduce){
     .bg span,.lamp,.diya i{animation:none}
     .card,.greet.show{animation:none}
@@ -118,7 +156,8 @@
     <p class="sub">Type your name to open your greeting.</p>
 
     <form id="f" autocomplete="off">
-      <input id="who" name="who" placeholder="Your name" aria-label="Your name" maxlength="40" required>
+      <input id="who" name="who" placeholder="Your name" aria-label="Your name" maxlength="40" required
+             enterkeyhint="go" autocapitalize="words" spellcheck="false">
       <button type="submit">Light it up</button>
     </form>
     <p class="hint">Press enter if you are lazy.</p>
@@ -146,11 +185,13 @@ const DEFAULT_MESSAGE = "May this Diwali fill your home with light, sweets and g
 /* ======================= no need to touch below ======================= */
 
 const PALETTE = ["#E8871E","#F2A33C","#C2185B","#0F766E","#6B2D5C","#8C2F1F","#D4A017","#B34A6B"];
+const REDUCE = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const SMALL = window.matchMedia("(max-width: 520px)").matches || (navigator.hardwareConcurrency || 8) <= 4;
 
 /* ---------- floating diyas ---------- */
 (function lamps(){
   const box = document.getElementById("lamps");
-  const n = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 16;
+  const n = REDUCE ? 0 : (SMALL ? 9 : 16);
   for (let i = 0; i < n; i++){
     const d = document.createElement("div");
     d.className = "lamp";
@@ -165,11 +206,12 @@ const PALETTE = ["#E8871E","#F2A33C","#C2185B","#0F766E","#6B2D5C","#8C2F1F","#D
 /* ---------- fireworks ---------- */
 (function fireworks(){
   const cv = document.getElementById("fw");
-  const ctx = cv.getContext("2d");
-  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  let W = 0, H = 0, dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const ctx = cv.getContext("2d", { alpha: true });
+  let W = 0, H = 0, dpr = Math.min(window.devicePixelRatio || 1, SMALL ? 1.5 : 2);
+  let running = true;
   const parts = [];
   const rockets = [];
+  const BUDGET = SMALL ? 320 : 700;          /* hard cap keeps phones cool */
 
   function size(){
     W = cv.clientWidth; H = cv.clientHeight;
@@ -177,25 +219,29 @@ const PALETTE = ["#E8871E","#F2A33C","#C2185B","#0F766E","#6B2D5C","#8C2F1F","#D
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
   size();
-  addEventListener("resize", size);
+  let rt;
+  addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(size, 120); });
+  if (window.visualViewport) visualViewport.addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(size, 120); });
 
   function burst(x, y, power){
-    const arms = reduce ? 18 : 46 + Math.floor(Math.random() * 26);
-    const hueA = PALETTE[Math.floor(Math.random() * PALETTE.length)];
-    const hueB = PALETTE[Math.floor(Math.random() * PALETTE.length)];
-    for (let i = 0; i < arms; i++){
-      const a = (i / arms) * Math.PI * 2 + Math.random() * 0.12;
+    const arms = REDUCE ? 18 : (SMALL ? 32 : 46) + Math.floor(Math.random() * 18);
+    const cA = PALETTE[Math.floor(Math.random() * PALETTE.length)];
+    const cB = PALETTE[Math.floor(Math.random() * PALETTE.length)];
+    const room = Math.max(0, BUDGET - parts.length);
+    const count = Math.min(arms, room);
+    for (let i = 0; i < count; i++){
+      const a = (i / count) * Math.PI * 2 + Math.random() * 0.12;
       const sp = (1.4 + Math.random() * 2.6) * power;
       parts.push({
         x, y, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp,
         life: 1, decay: 0.008 + Math.random() * 0.012,
-        c: Math.random() < 0.5 ? hueA : hueB,
+        c: Math.random() < 0.5 ? cA : cB,
         r: 1.5 + Math.random() * 1.8
       });
     }
   }
 
-  function launch(fromBottom){
+  function launch(){
     rockets.push({
       x: W * (0.12 + Math.random() * 0.76),
       y: H + 8,
@@ -206,6 +252,7 @@ const PALETTE = ["#E8871E","#F2A33C","#C2185B","#0F766E","#6B2D5C","#8C2F1F","#D
   }
 
   function frame(){
+    if (!running) return;
     ctx.globalCompositeOperation = "source-over";
     ctx.fillStyle = "rgba(255,247,236,0.16)";
     ctx.fillRect(0, 0, W, H);
@@ -216,10 +263,7 @@ const PALETTE = ["#E8871E","#F2A33C","#C2185B","#0F766E","#6B2D5C","#8C2F1F","#D
       r.y += r.vy; r.vy += 0.045;
       ctx.beginPath(); ctx.fillStyle = r.c; ctx.globalAlpha = .9;
       ctx.arc(r.x, r.y, 2.2, 0, Math.PI * 2); ctx.fill();
-      if (r.y <= r.target || r.vy >= 0){
-        burst(r.x, r.y, 1);
-        rockets.splice(i, 1);
-      }
+      if (r.y <= r.target || r.vy >= 0){ burst(r.x, r.y, 1); rockets.splice(i, 1); }
     }
 
     for (let i = parts.length - 1; i >= 0; i--){
@@ -237,19 +281,27 @@ const PALETTE = ["#E8871E","#F2A33C","#C2185B","#0F766E","#6B2D5C","#8C2F1F","#D
   }
   requestAnimationFrame(frame);
 
-  if (!reduce){
-    setInterval(() => { if (rockets.length < 4) launch(); }, 1400);
-    setTimeout(() => { launch(); launch(); }, 400);
+  /* stop drawing when the tab/app is in the background */
+  document.addEventListener("visibilitychange", () => {
+    running = !document.hidden;
+    if (running) requestAnimationFrame(frame);
+  });
+
+  if (!REDUCE){
+    setInterval(() => {
+      if (document.hidden) return;
+      if (rockets.length < (SMALL ? 2 : 4)) launch();
+    }, SMALL ? 1900 : 1400);
+    setTimeout(launch, 400);
   }
 
-  /* expose one big celebration */
   window.celebrate = function(){
     const cx = innerWidth / 2, cy = innerHeight * 0.34;
     burst(cx, cy, 1.5);
-    setTimeout(() => burst(cx - 120, cy + 40, 1.2), 180);
-    setTimeout(() => burst(cx + 120, cy + 60, 1.2), 320);
+    setTimeout(() => burst(cx - 90, cy + 40, 1.2), 180);
+    setTimeout(() => burst(cx + 90, cy + 60, 1.2), 320);
     setTimeout(() => burst(cx, cy - 40, 1.3), 480);
-    for (let i = 0; i < 4; i++) setTimeout(launch, 260 + i * 220);
+    for (let i = 0; i < (SMALL ? 2 : 4); i++) setTimeout(launch, 260 + i * 240);
   };
 })();
 
@@ -266,8 +318,6 @@ function lookup(raw){
   const key = clean(raw);
   if (!key) return null;
   if (GREETINGS[key]) return { key, phrase: GREETINGS[key] };
-
-  // try first word, then any key contained in what they typed
   const first = key.split(" ")[0];
   if (GREETINGS[first]) return { key: first, phrase: GREETINGS[first] };
   for (const k of Object.keys(GREETINGS)){
@@ -280,19 +330,22 @@ function titleCase(s){
   return s.replace(/\S+/g, w => w[0].toUpperCase() + w.slice(1));
 }
 
+function esc(s){
+  return s.replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+}
+
 form.addEventListener("submit", e => {
   e.preventDefault();
   const raw = who.value;
   if (!clean(raw)) return;
 
   const hit = lookup(raw);
-  const shown = titleCase(clean(raw));
   const phrase = hit ? hit.phrase : DEFAULT_MESSAGE;
 
   greet.innerHTML =
     '<div class="rule"></div>' +
-    '<div class="name">' + shown.replace(/[<>&]/g, "") + '</div>' +
-    '<p class="phrase">Happy Diwali! ' + phrase.replace(/[<>&]/g, "") + '</p>' +
+    '<div class="name">' + esc(titleCase(clean(raw))) + '</div>' +
+    '<p class="phrase">Happy Diwali! ' + esc(phrase) + '</p>' +
     '<div class="rule"></div>' +
     '<p class="foot">' + (hit ? "Found you on the list." : "You are on the list now too.") + '</p>';
 
@@ -302,6 +355,11 @@ form.addEventListener("submit", e => {
 
   if (window.celebrate) window.celebrate();
   who.blur();
+
+  /* keep the greeting in view after the phone keyboard closes */
+  if (window.matchMedia("(max-width: 520px)").matches){
+    setTimeout(() => greet.scrollIntoView({ behavior: "smooth", block: "nearest" }), 260);
+  }
 });
 </script>
 </body>
